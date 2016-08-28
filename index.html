@@ -6,9 +6,10 @@
     <link rel="icon" type="image/png" href="png/icon.png" sizes="16x16"/>
     <link type="text/css" href="css/style.css" rel="stylesheet"/>
   </head>
-  <body>
-    <textarea id="editor"></textarea>
+  <body id="container">
+    <textarea id="editor" height="100px" width="200px" onmousedown="drag.startMoving(this, 'container', event);" onmouseup="drag.stopMoving('container')"></textarea>
     <iframe id="result"></iframe>
     <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/drag.js"></script>
   </body>
 </html>
