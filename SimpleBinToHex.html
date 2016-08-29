@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="windows-1252"></meta>
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuM4zml1AAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNDowODowMyAxOTowNzoyMKVTSp4AAABuSURBVDhP7ZIxCsAwCEVN6ZBbeTRvlpLbdMyYofBjxO6xnQp9RDQf/neRngJ7RMl+QW7zZPO+jIjgKMVm3Z5CARACM1Ot1cwurzHNgJZ2l9b5zUG+ai78wgw9bmiAhrgUYt4zct5779epc4sVtQHzV3mhgckCTAAAAABJRU5ErkJggg=="></link>
+    <title>Simple HTML Editor</title>
+    <style>/* normalize */
+* {
+  all:unset;
+}
+/* initialize */
+head, script {
+  display:none;
+}
+html, body {
+  height:100%;
+  width:100%;
+}
+/* customize */
+#input, #output {
+  display:block;
+  height:100%;
+  width:50%;
+}
+#input {
+  background-color:#000000;
+  color:#00ff00;
+  float:left;
+  font-family:monospace;
+  white-space:pre;
+}
+#output {
+  font-family:monospace;
+  float:right;
+  white-space:pre;
+}</style>
+  </head>
+  <body>
+    <textarea id="input" contenteditable="contenteditable"></textarea>
+    <textarea id="output"></textarea>
+    <script>/* event handling */
+var d = document;
+function hexToBin(hex) {
+  var text = "";
+  var str = "";
+  var len = 3;
+  for (var i = 0; i < hex.length; i += len) {
+    len = 3;
+    switch (hex.substring(i, i + len)) {
+      case "00 ": str = "00000000 "; break;
+      case "01 ": str = "00000001 "; break;
+      case "02 ": str = "00000010 "; break;
+      case "03 ": str = "00000011 "; break;
+      case "04 ": str = "00000100 "; break;
+      case "05 ": str = "00000101 "; break;
+      case "06 ": str = "00000110 "; break;
+      case "07 ": str = "00000111 "; break;
+      case "08 ": str = "00001000 "; break;
+      case "09 ": str = "00001001 "; break;
+      case "0A ": str = "00001010 "; break;
+      case "0B ": str = "00001011 "; break;
+      case "0C ": str = "00001100 "; break;
+      case "0D ": str = "00001101 "; break;
+      case "0E ": str = "00001110 "; break;
+      case "0F ": str = "00001111 "; break;
+      case "10 ": str = "00010000 "; break;
+      case "11 ": str = "00010001 "; break;
+      case "12 ": str = "00010010 "; break;
+      case "13 ": str = "00010011 "; break;
+      case "14 ": str = "00010100 "; break;
+      case "15 ": str = "00010101 "; break;
+      case "16 ": str = "00010110 "; break;
+      case "17 ": str = "00010111 "; break;
+      case "18 ": str = "00011000 "; break;
+      case "19 ": str = "00011001 "; break;
+      case "1A ": str = "00011010 "; break;
+      case "1B ": str = "00011011 "; break;
+      case "1C ": str = "00011100 "; break;
+      case "1D ": str = "00011101 "; break;
+      case "1E ": str = "00011110 "; break;
+      case "1F ": str = "00011111 "; break;
+      case "20 ": str = "00100000 "; break;
+      case "21 ": str = "00100001 "; break;
+      case "22 ": str = "00100010 "; break;
+      case "23 ": str = "00100011 "; break;
+      case "24 ": str = "00100100 "; break;
+      case "25 ": str = "00100101 "; break;
+      case "26 ": str = "00100110 "; break;
+      case "27 ": str = "00100111 "; break;
+      case "28 ": str = "00101000 "; break;
+      case "29 ": str = "00101001 "; break;
+      case "2A ": str = "00101010 "; break;
+      case "2B ": str = "00101011 "; break;
+      case "2C ": str = "00101100 "; break;
+      case "2D ": str = "00101101 "; break;
+      case "2E ": str = "00101110 "; break;
+      case "2F ": str = "00101111 "; break;
+      case "30 ": str = "00110000 "; break;
+      case "31 ": str = "00110001 "; break;
+      case "32 ": str = "00110010 "; break;
+      case "33 ": str = "00110011 "; break;
+      case "34 ": str = "00110100 "; break;
+      case "35 ": str = "00110101 "; break;
+      case "36 ": str = "00110110 "; break;
+      case "37 ": str = "00110111 "; break;
+      case "38 ": str = "00111000 "; break;
+      case "39 ": str = "00111001 "; break;
+      case "3A ": str = "00111010 "; break;
+      case "3B ": str = "00111011 "; break;
+      case "3C ": str = "00111100 "; break;
+      case "3D ": str = "00111101 "; break;
+      case "3E ": str = "00111110 "; break;
+      case "3F ": str = "00111111 "; break;
+      case "40 ": str = "01000000 "; break;
+      case "41 ": str = "01000001 "; break;
+      case "42 ": str = "01000010 "; break;
+      case "43 ": str = "01000011 "; break;
+      case "44 ": str = "01000100 "; break;
+      case "45 ": str = "01000101 "; break;
+      case "46 ": str = "01000110 "; break;
+      case "47 ": str = "01000111 "; break;
+      case "48 ": str = "01001000 "; break;
+      case "49 ": str = "01001001 "; break;
+      case "4A ": str = "01001010 "; break;
+      case "4B ": str = "01001011 "; break;
+      case "4C ": str = "01001100 "; break;
+      case "4D ": str = "01001101 "; break;
+      case "4E ": str = "01001110 "; break;
+      case "4F ": str = "01001111 "; break;
+      case "50 ": str = "01010000 "; break;
+      case "51 ": str = "01010001 "; break;
+      case "52 ": str = "01010010 "; break;
+      case "53 ": str = "01010011 "; break;
+      case "54 ": str = "01010100 "; break;
+      case "55 ": str = "01010101 "; break;
+      case "56 ": str = "01010110 "; break;
+      case "57 ": str = "01010111 "; break;
+      case "58 ": str = "01011000 "; break;
+      case "59 ": str = "01011001 "; break;
+      case "5A ": str = "01011010 "; break;
+      case "5B ": str = "01011011 "; break;
+      case "5C ": str = "01011100 "; break;
+      case "5D ": str = "01011101 "; break;
+      case "5E ": str = "01011110 "; break;
+      case "5F ": str = "01011111 "; break;
+      case "60 ": str = "01100000 "; break;
+      case "61 ": str = "01100001 "; break;
+      case "62 ": str = "01100010 "; break;
+      case "63 ": str = "01100011 "; break;
+      case "64 ": str = "01100100 "; break;
+      case "65 ": str = "01100101 "; break;
+      case "66 ": str = "01100110 "; break;
+      case "67 ": str = "01100111 "; break;
+      case "68 ": str = "01101000 "; break;
+      case "69 ": str = "01101001 "; break;
+      case "6A ": str = "01101010 "; break;
+      case "6B ": str = "01101011 "; break;
+      case "6C ": str = "01101100 "; break;
+      case "6D ": str = "01101101 "; break;
+      case "6E ": str = "01101110 "; break;
+      case "6F ": str = "01101111 "; break;
+      case "70 ": str = "01110000 "; break;
+      case "71 ": str = "01110001 "; break;
+      case "72 ": str = "01110010 "; break;
+      case "73 ": str = "01110011 "; break;
+      case "74 ": str = "01110100 "; break;
+      case "75 ": str = "01110101 "; break;
+      case "76 ": str = "01110110 "; break;
+      case "77 ": str = "01110111 "; break;
+      case "78 ": str = "01111000 "; break;
+      case "79 ": str = "01111001 "; break;
+      case "7A ": str = "01111010 "; break;
+      case "7B ": str = "01111011 "; break;
+      case "7C ": str = "01111100 "; break;
+      case "7D ": str = "01111101 "; break;
+      case "7E ": str = "01111110 "; break;
+      case "7F ": str = "01111111 "; break;
+      case "80 ": str = "10000000 "; break;
+      case "81 ": str = "10000001 "; break;
+      case "82 ": str = "10000010 "; break;
+      case "83 ": str = "10000011 "; break;
+      case "84 ": str = "10000100 "; break;
+      case "85 ": str = "10000101 "; break;
+      case "86 ": str = "10000110 "; break;
+      case "87 ": str = "10000111 "; break;
+      case "88 ": str = "10001000 "; break;
+      case "89 ": str = "10001001 "; break;
+      case "8A ": str = "10001010 "; break;
+      case "8B ": str = "10001011 "; break;
+      case "8C ": str = "10001100 "; break;
+      case "8D ": str = "10001101 "; break;
+      case "8E ": str = "10001110 "; break;
+      case "8F ": str = "10001111 "; break;
+      case "90 ": str = "10010000 "; break;
+      case "91 ": str = "10010001 "; break;
+      case "92 ": str = "10010010 "; break;
+      case "93 ": str = "10010011 "; break;
+      case "94 ": str = "10010100 "; break;
+      case "95 ": str = "10010101 "; break;
+      case "96 ": str = "10010110 "; break;
+      case "97 ": str = "10010111 "; break;
+      case "98 ": str = "10011000 "; break;
+      case "99 ": str = "10011001 "; break;
+      case "9A ": str = "10011010 "; break;
+      case "9B ": str = "10011011 "; break;
+      case "9C ": str = "10011100 "; break;
+      case "9D ": str = "10011101 "; break;
+      case "9E ": str = "10011110 "; break;
+      case "9F ": str = "10011111 "; break;
+      case "A0 ": str = "10100000 "; break;
+      case "A1 ": str = "10100001 "; break;
+      case "A2 ": str = "10100010 "; break;
+      case "A3 ": str = "10100011 "; break;
+      case "A4 ": str = "10100100 "; break;
+      case "A5 ": str = "10100101 "; break;
+      case "A6 ": str = "10100110 "; break;
+      case "A7 ": str = "10100111 "; break;
+      case "A8 ": str = "10101000 "; break;
+      case "A9 ": str = "10101001 "; break;
+      case "AA ": str = "10101010 "; break;
+      case "AB ": str = "10101011 "; break;
+      case "AC ": str = "10101100 "; break;
+      case "AD ": str = "10101101 "; break;
+      case "AE ": str = "10101110 "; break;
+      case "AF ": str = "10101111 "; break;
+      case "B0 ": str = "10110000 "; break;
+      case "B1 ": str = "10110001 "; break;
+      case "B2 ": str = "10110010 "; break;
+      case "B3 ": str = "10110011 "; break;
+      case "B4 ": str = "10110100 "; break;
+      case "B5 ": str = "10110101 "; break;
+      case "B6 ": str = "10110110 "; break;
+      case "B7 ": str = "10110111 "; break;
+      case "B8 ": str = "10111000 "; break;
+      case "B9 ": str = "10111001 "; break;
+      case "BA ": str = "10111010 "; break;
+      case "BB ": str = "10111011 "; break;
+      case "BC ": str = "10111100 "; break;
+      case "BD ": str = "10111101 "; break;
+      case "BE ": str = "10111110 "; break;
+      case "BF ": str = "10111111 "; break;
+      case "C0 ": str = "11000000 "; break;
+      case "C1 ": str = "11000001 "; break;
+      case "C2 ": str = "11000010 "; break;
+      case "C3 ": str = "11000011 "; break;
+      case "C4 ": str = "11000100 "; break;
+      case "C5 ": str = "11000101 "; break;
+      case "C6 ": str = "11000110 "; break;
+      case "C7 ": str = "11000111 "; break;
+      case "C8 ": str = "11001000 "; break;
+      case "C9 ": str = "11001001 "; break;
+      case "CA ": str = "11001010 "; break;
+      case "CB ": str = "11001011 "; break;
+      case "CC ": str = "11001100 "; break;
+      case "CD ": str = "11001101 "; break;
+      case "CE ": str = "11001110 "; break;
+      case "CF ": str = "11001111 "; break;
+      case "D0 ": str = "11010000 "; break;
+      case "D1 ": str = "11010001 "; break;
+      case "D2 ": str = "11010010 "; break;
+      case "D3 ": str = "11010011 "; break;
+      case "D4 ": str = "11010100 "; break;
+      case "D5 ": str = "11010101 "; break;
+      case "D6 ": str = "11010110 "; break;
+      case "D7 ": str = "11010111 "; break;
+      case "D8 ": str = "11011000 "; break;
+      case "D9 ": str = "11011001 "; break;
+      case "DA ": str = "11011010 "; break;
+      case "DB ": str = "11011011 "; break;
+      case "DC ": str = "11011100 "; break;
+      case "DD ": str = "11011101 "; break;
+      case "DE ": str = "11011110 "; break;
+      case "DF ": str = "11011111 "; break;
+      case "E0 ": str = "11100000 "; break;
+      case "E1 ": str = "11100001 "; break;
+      case "E2 ": str = "11100010 "; break;
+      case "E3 ": str = "11100011 "; break;
+      case "E4 ": str = "11100100 "; break;
+      case "E5 ": str = "11100101 "; break;
+      case "E6 ": str = "11100110 "; break;
+      case "E7 ": str = "11100111 "; break;
+      case "E8 ": str = "11101000 "; break;
+      case "E9 ": str = "11101001 "; break;
+      case "EA ": str = "11101010 "; break;
+      case "EB ": str = "11101011 "; break;
+      case "EC ": str = "11101100 "; break;
+      case "ED ": str = "11101101 "; break;
+      case "EE ": str = "11101110 "; break;
+      case "EF ": str = "11101111 "; break;
+      case "F0 ": str = "11110000 "; break;
+      case "F1 ": str = "11110001 "; break;
+      case "F2 ": str = "11110010 "; break;
+      case "F3 ": str = "11110011 "; break;
+      case "F4 ": str = "11110100 "; break;
+      case "F5 ": str = "11110101 "; break;
+      case "F6 ": str = "11110110 "; break;
+      case "F7 ": str = "11110111 "; break;
+      case "F8 ": str = "11111000 "; break;
+      case "F9 ": str = "11111001 "; break;
+      case "FA ": str = "11111010 "; break;
+      case "FB ": str = "11111011 "; break;
+      case "FC ": str = "11111100 "; break;
+      case "FD ": str = "11111101 "; break;
+      case "FE ": str = "11111110 "; break;
+      case "FF ": str = "11111111 "; break;
+      default:    str = hex.charAt(i); len = 1; break;
+    }
+    text = text + str;
+  }
+  return text;
+}
+function main() {
+  var i = d.getElementById("input");
+  var o = d.getElementById("output");
+  i.addEventListener("input", function(){
+    o.value = hexToBin(i.value).replace(/(.{9})/g,"$1\n");
+  });
+};
+d.addEventListener("DOMContentLoaded", main());</script>
+  </body>
+</html>

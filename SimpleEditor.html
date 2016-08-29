@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="windows-1252"></meta>
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuM4zml1AAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAxNDowODowMyAxOTowNzoyMKVTSp4AAABuSURBVDhP7ZIxCsAwCEVN6ZBbeTRvlpLbdMyYofBjxO6xnQp9RDQf/neRngJ7RMl+QW7zZPO+jIjgKMVm3Z5CARACM1Ot1cwurzHNgJZ2l9b5zUG+ai78wgw9bmiAhrgUYt4zct5779epc4sVtQHzV3mhgckCTAAAAABJRU5ErkJggg=="></link>
+    <title>Simple HTML Editor</title>
+    <style>/* normalize */
+* {
+  all:unset;
+}
+/* initialize */
+head, script {
+  display:none;
+}
+html, body {
+  height:100%;
+  width:100%;
+}
+/* customize */
+#input, #output {
+  display:block;
+  height:100%;
+  width:50%;
+}
+#input {
+  background-color:#000000;
+  color:#00ff00;
+  float:left;
+  font-family:monospace;
+  white-space:pre;
+}
+#output {
+  float:right;
+}</style>
+  </head>
+  <body>
+    <textarea id="input" contenteditable="contenteditable"></textarea>
+    <iframe id="output"></iframe>
+    <script>/* event handling */
+var d = document;
+function main() {
+  var i = d.getElementById("input");
+  var o = d.getElementById("output");
+  i.addEventListener("input", function(){
+    o.setAttribute("srcdoc", i.value);
+  });
+};
+d.addEventListener("DOMContentLoaded", main());</script>
+  </body>
+</html>
