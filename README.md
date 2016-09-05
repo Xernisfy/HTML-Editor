@@ -8,9 +8,9 @@ advantages:
 - fast
 - in your browser
 - renders as you type
+- indentation with tabulator (tab)
 
 in development:
-- indentation with tabulator (tab)
 - multiple documents (html, js, css)
 - movable editor
 - saving
