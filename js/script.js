@@ -23,3 +23,11 @@ function f() {
   });
 }
 a(d, 'DOMContentLoaded', f);
+/* Treat TAB-key as two spaces and prevent from "tabbing" to the next element */
+d.addEventListener("keydown", function(e) {
+  if (e.key === "Tab") {
+    e.preventDefault();
+    var i = d.getElementById("input");
+    i.value = i.value.substring(0, i.selectionStart) + "  " + i.value.substring(i.selectionEnd, i.value.length);
+  };
+});
