@@ -7,6 +7,8 @@ advantages:
 - small size (only a few KB)
 - fast
 - in your browser
+- multiple documents (html, js, css)
+- moveble and resizable editor window
 
 
 functions:
@@ -15,8 +17,6 @@ functions:
 
 
 in development:
-- multiple documents (html, js, css)
-- movable editor
 - saving
 
 
