@@ -8,7 +8,7 @@ advantages:
 - fast
 - in your browser
 - multiple documents (html, js, css)
-- moveable and resizable editor window
+- moveble and resizable editor window
 
 
 functions:
