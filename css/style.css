@@ -1,25 +1,6 @@
 * {
   all:unset;
 }
-head, script {
+head, script, style {
   display:none;
-}
-#panel {
-  background-color:transparent;
-  position:absolute;
-  z-index:1;
-}
-#editor {
-  background-color:lightgrey;
-  color:black;
-  font-family:monospace;
-  position:absolute;
-  resize:both;
-  white-space:pre;
-  z-index:1;
-}
-html, body, #result {
-  position:absolute;
-  height:100%;
-  width:100%;
 }
