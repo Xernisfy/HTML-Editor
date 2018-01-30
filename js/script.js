@@ -7,283 +7,283 @@
     lv = 'blur mouseleave',
     fg = '#000000',
     bg = '#ffffff';
-  function cr(t) {
-    return d.createElement(t);
+  function create(tag) {
+    return d.createElement(tag);
   }
-  function s(o, s) {
-    function t(p, v) {
-      for (let k in v) {
-        if (v[k].constructor.name === 'Object') {
-          t(p[k], v[k]);
+  function setAttributes(object, attributes) {
+    function traverse(parent, value) {
+      for (let key in value) {
+        if (value[key].constructor.name === 'Object') {
+          traverse(parent[key], value[key]);
         } else {
-          p[k] = v[k];
+          parent[key] = value[key];
         };
       };
     }
-    t(o, s);
+    traverse(object, attributes);
   }
-  function a(p, c) {
-    p.appendChild(c);
+  function append(parent, child) {
+    parent.appendChild(child);
   }
-  function px(n = 0) {
-    return n + 'px';
+  function pixel(number = 0) {
+    return number + 'px';
   }
-  function nm(n) {
-    return parseInt(n.replace('px', ''));
+  function number(string) {
+    return parseInt(string.replace('px', ''));
   }
-  function p(n) {
-    return (n ? n : 100) + '% ';
+  function percent(number) {
+    return (number ? number : 100) + '% ';
   }
-  function ael(t, e, f) {
-    var l = e.split(' ');
-    for (let el of l) {
-      t.addEventListener(el, f);
+  function addEventListeners(target, events, callback) {
+    var eventList = events.split(' ');
+    for (let event of eventList) {
+      target.addEventListener(event, callback);
     };
   }
-  function rel(t, e, f) {
-    t.removeEventListener(e, f);
+  function removeEventListeners(target, event, callback) {
+    target.removeEventListener(event, callback);
   }
-  function bd(c) {
-    return px(1) + ' solid ' + c;
+  function border(color) {
+    return pixel(1) + ' solid ' + color;
   }
-  function ly() {
-    var d = cr('div');
-    s(d, {
+  function layer() {
+    let div = create('div');
+    setAttributes(d, {
       style: {
-        top: px(),
+        top: pixel(),
         display: 'none',
         position: 'fixed',
-        height: p(),
-        width: p()
+        height: percent(),
+        width: percent()
       }
     });
-    return d;
+    return div;
   }
-  function rh(w, c) {
-    var o = cr('div'),
-      l = ly(),
+  function resizeHandle(window, direction) {
+    var handle = create('div'),
+      l = layer(),
       dh = 0,
       dl = 0,
       dt = 0,
       dw = 0,
       dx = 0,
       dy = 0;
-    a(d.body, l);
-    if (c === 'ew') {
-      o.style.height = p();
+    append(d.body, l);
+    if (direction === 'ew') {
+      handle.style.height = percent();
     } else {
-      o.style.height = px(8);
+      handle.style.height = pixel(8);
     };
-    if (c === 'ns') {
-      o.style.width = p();
+    if (direction === 'ns') {
+      handle.style.width = percent();
     } else {
-      o.style.width = px(8);
+      handle.style.width = pixel(8);
     };
-    s(o, {
+    setAttributes(handle, {
       draggable: 'true',
       style: {
         position: 'absolute',
-        cursor: c + '-resize',
+        cursor: direction + '-resize',
         backgroundColor: tp,
         MozUserSelect: 'none'
       }
     });
     function resize(e) {
-      if (c.includes('n') || c.includes('s')) {
+      if (direction.includes('n') || direction.includes('s')) {
         if (dt + (dh / 2) > dy) {
-          w.style.height = px(Math.min(dh + dt, Math.max(9 * 20 - 2, dh - (e.clientY - dy))));
-          w.style.top = px(Math.min(dh + dt - (9 * 20 - 2), Math.max(0, dt + (e.clientY - dy))));
+          window.style.height = pixel(Math.min(dh + dt, Math.max(9 * 20 - 2, dh - (e.clientY - dy))));
+          window.style.top = pixel(Math.min(dh + dt - (9 * 20 - 2), Math.max(0, dt + (e.clientY - dy))));
         } else {
-          w.style.height = px(Math.min(innerHeight - dt - 2, Math.max(9 * 20 - 2, dh + (e.clientY - dy))));
+          window.style.height = pixel(Math.min(innerHeight - dt - 2, Math.max(9 * 20 - 2, dh + (e.clientY - dy))));
         };
       };
-      if (c.includes('e') || c.includes('w')) {
+      if (direction.includes('e') || direction.includes('w')) {
         if (dl + (dw / 2) > dx) {
-          w.style.width = px(Math.min(dw + dl, Math.max(16 * 20 - 2, dw - (e.clientX - dx))));
-          w.style.left = px(Math.min(dw + dl - (16 * 20 - 2), Math.max(0, dl + (e.clientX - dx))));
+          window.style.width = pixel(Math.min(dw + dl, Math.max(16 * 20 - 2, dw - (e.clientX - dx))));
+          window.style.left = pixel(Math.min(dw + dl - (16 * 20 - 2), Math.max(0, dl + (e.clientX - dx))));
         } else {
-          w.style.width = px(Math.min(innerWidth - dl - 2, Math.max(16 * 20 - 2, dw + (e.clientX - dx))));
+          window.style.width = pixel(Math.min(innerWidth - dl - 2, Math.max(16 * 20 - 2, dw + (e.clientX - dx))));
         };
       };
     }
-    ael(o, 'mousedown', function (e) {
-      dh = nm(w.style.height);
-      dl = nm(w.style.left);
-      dt = nm(w.style.top);
-      dw = nm(w.style.width);
+    addEventListeners(handle, 'mousedown', function (e) {
+      dh = number(window.style.height);
+      dl = number(window.style.left);
+      dt = number(window.style.top);
+      dw = number(window.style.width);
       dx = e.clientX;
       dy = e.clientY;
       l.style.display = 'block';
-      ael(d, 'mousemove', resize);
+      addEventListeners(d, 'mousemove', resize);
     });
-    ael(d, 'mouseup', function () {
+    addEventListeners(d, 'mouseup', function () {
       l.style.display = 'none';
-      rel(d, 'mousemove', resize);
+      removeEventListeners(d, 'mousemove', resize);
     });
-    a(w, o);
-    return o;
+    append(window, handle);
+    return handle;
   }
-  function ch(w) {
-    var o = {
-      top: rh(w, 'ns'),
-      topRight: rh(w, 'nesw'),
-      right: rh(w, 'ew'),
-      bottomRight: rh(w, 'nwse'),
-      bottom: rh(w, 'ns'),
-      bottomLeft: rh(w, 'nesw'),
-      left: rh(w, 'ew'),
-      topLeft: rh(w, 'nwse')
+  function createHandles(window) {
+    var frame = {
+      top: resizeHandle(window, 'ns'),
+      topRight: resizeHandle(window, 'nesw'),
+      right: resizeHandle(window, 'ew'),
+      bottomRight: resizeHandle(window, 'nwse'),
+      bottom: resizeHandle(window, 'ns'),
+      bottomLeft: resizeHandle(window, 'nesw'),
+      left: resizeHandle(window, 'ew'),
+      topLeft: resizeHandle(window, 'nwse')
     };
-    s(o, {
-      top: { style: { top: px(-8) } },
-      topRight: { style: { top: px(-8), right: px(-8) } },
-      right: { style: { right: px(-8) } },
-      bottomRight: { style: { bottom: px(-8), right: px(-8) } },
-      bottom: { style: { bottom: px(-8) } },
-      bottomLeft: { style: { bottom: px(-8), left: px(-8) } },
-      left: { style: { left: px(-8) } },
-      topLeft: { style: { top: px(-8), left: px(-8) } }
+    setAttributes(frame, {
+      top: { style: { top: pixel(-8) } },
+      topRight: { style: { top: pixel(-8), right: pixel(-8) } },
+      right: { style: { right: pixel(-8) } },
+      bottomRight: { style: { bottom: pixel(-8), right: pixel(-8) } },
+      bottom: { style: { bottom: pixel(-8) } },
+      bottomLeft: { style: { bottom: pixel(-8), left: pixel(-8) } },
+      left: { style: { left: pixel(-8) } },
+      topLeft: { style: { top: pixel(-8), left: pixel(-8) } }
     });
-    return o;
+    return frame;
   }
-  function tb(t, n = true) {
-    var v = cr('button');
-    s(v, {
-      innerHTML: t,
+  function createTab(text, normal = true) {
+    var tab = create('button');
+    setAttributes(tab, {
+      innerHTML: text,
       style: {
         float: 'left',
         display: 'block',
-        height: p(),
-        width: px(56),
+        height: percent(),
+        width: pixel(56),
         textAlign: 'center',
         fontFamily: 'sans-serif',
         fontSize: '9pt'
       }
     });
-    if (n) {
-      s(v, {
+    if (normal) {
+      setAttributes(tab, {
         style: {
           color: fg + 'a0',
-          border: bd('#dadbdc'),
+          border: border('#dadbdc'),
           borderBottom: 'none'
         }
       });
     };
-    return v;
+    return tab;
   }
-  function tf(t, p, f) {
-    ael(t, ov, function () {
-      s(t, {
+  function tabFunctions(tab, panel, callback) {
+    addEventListeners(tab, ov, function () {
+      setAttributes(tab, {
         style: {
-          border: bd('#dadbdc'),
+          border: border('#dadbdc'),
           borderBottom: 'none'
         }
       });
     });
-    ael(t, lv, function () {
-      if (p.style.display === 'none') {
-        s(t, {
+    addEventListeners(tab, lv, function () {
+      if (panel.style.display === 'none') {
+        setAttributes(tab, {
           style: {
-            border: bd(tp),
+            border: border(tp),
             borderBottom: 'none'
           }
         });
       };
     });
-    ael(t, 'click', f);
+    addEventListeners(tab, 'click', callback);
   }
-  function pl() {
-    var v = cr('textarea');
-    s(v, {
+  function createTextarea() {
+    var textarea = create('textarea');
+    setAttributes(textarea, {
       style: {
         display: 'none',
-        height: p(),
-        width: p(),
+        height: percent(),
+        width: percent(),
         fontFamily: 'monospace',
         color: fg,
         backgroundColor: bg,
         whiteSpace: 'pre'
       }
     });
-    return v;
+    return textarea;
   }
-  function ub(p) {
-    var b = cr('button'),
-      c = cr('canvas'),
-      cx = c.getContext('2d');
-    a(p, b);
-    a(b, c);
-    b.style.height = px(29);
-    b.style.width = px(45);
-    b.style.border = 'none';
-    b.style.padding = px();
-    b.style.backgroundColor = '#ffffff';
-    c.height = '29';
-    c.width = '45';
-    c.style.backgroundColor = tp;
-    return { 'b': b, 'c': c, 'cx': cx };
+  function createUIButton(panel) {
+    var button = create('button'),
+      canvas = create('canvas'),
+      context = canvas.getContext('2d');
+    append(panel, button);
+    append(button, canvas);
+    button.style.height = pixel(29);
+    button.style.width = pixel(45);
+    button.style.border = 'none';
+    button.style.padding = pixel();
+    button.style.backgroundColor = '#ffffff';
+    canvas.height = '29';
+    canvas.width = '45';
+    canvas.style.backgroundColor = tp;
+    return { 'b': button, 'c': canvas, 'cx': context };
   }
-  ael(d, 'DOMContentLoaded', function () {
+  addEventListeners(d, 'DOMContentLoaded', function () {
     var dx = 0,
       dy = 0,
       ratio = 40,
-      l = ly(),
-      o = cr('iframe'),
-      w = cr('div'),
-      rh = ch(w),
-      t = cr('nav'),
-      i = cr('img'),
-      b = cr('div'),
-      mi = ub(b),
-      ma = ub(b),
-      cl = ub(b),
-      m = cr('nav'),
-      f = tb('Datei', false),
-      tx = cr('div'),
-      xh = pl(),
-      xj = pl(),
-      xc = pl(),
-      xr = pl(),
-      h = tb('html'),
-      j = tb('js'),
-      c = tb('css'),
-      r = tb('raw');
-    a(d.body, o);
-    a(d.body, l);
-    a(d.body, w);
-    a(w, t);
-    a(t, i);
-    a(t, b);
-    a(w, m);
-    a(m, f);
-    a(m, h);
-    a(m, j);
-    a(m, c);
-    a(m, r);
-    a(w, tx);
-    a(tx, xh);
-    a(tx, xj);
-    a(tx, xc);
-    a(tx, xr);
-    s(ht, {
+      l = layer(),
+      output = create('iframe'),
+      window = create('div'),
+      frame = createHandles(window),
+      navPanel = create('nav'),
+      icon = create('img'),
+      buttonPanel = create('div'),
+      mi = createUIButton(buttonPanel),
+      ma = createUIButton(buttonPanel),
+      cl = createUIButton(buttonPanel),
+      menuPanel = create('nav'),
+      fileTab = createTab('Datei', false),
+      editorPanel = create('div'),
+      htmlArea = createTextarea(),
+      jsArea = createTextarea(),
+      cssArea = createTextarea(),
+      rawArea = createTextarea(),
+      htmlTab = createTab('html'),
+      jsTab = createTab('js'),
+      cssTab = createTab('css'),
+      rawTab = createTab('raw');
+    append(d.body, output);
+    append(d.body, l);
+    append(d.body, window);
+    append(window, navPanel);
+    append(navPanel, icon);
+    append(navPanel, buttonPanel);
+    append(window, menuPanel);
+    append(menuPanel, fileTab);
+    append(menuPanel, htmlTab);
+    append(menuPanel, jsTab);
+    append(menuPanel, cssTab);
+    append(menuPanel, rawTab);
+    append(window, editorPanel);
+    append(editorPanel, htmlArea);
+    append(editorPanel, jsArea);
+    append(editorPanel, cssArea);
+    append(editorPanel, rawArea);
+    setAttributes(ht, {
       style: {
-        height: p(),
-        width: p()
+        height: percent(),
+        width: percent()
       }
     });
-    s(d, {
+    setAttributes(d, {
       body: {
         style: {
-          height: p(),
-          width: p(),
+          height: percent(),
+          width: percent(),
           overflow: 'hidden'
         }
       }
     });
-    s(o, {
+    setAttributes(output, {
       style: {
-        height: p(),
-        width: p()
+        height: percent(),
+        width: percent()
       }
     });
     ael(o, 'load', function () {
