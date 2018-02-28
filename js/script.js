@@ -454,8 +454,10 @@
       console.clear();
       console.time('DOMContentLoaded');
       o.srcdoc = doc;
-      o.contentDocument.addEventListener('DOMContentLoaded', function() {
-        console.timeEnd('DOMContentLoaded');
+      o.contentWindow.addEventListener('load', function() {
+        o.contentDocument.addEventListener('DOMContentLoaded', function() {
+          console.timeEnd('DOMContentLoaded');
+        })
       })
       xr.innerHTML = doc;
     }
@@ -495,7 +497,7 @@
     ael(xh, 'keydown', function (e) {
       key(e, xh);
     });
-    xj.innerHTML = '(function () {\n  \'use strict\';\n  document.addEventListener(\'DOMContentLoaded\',function () {\n    console.timeEnd(\'DOMContentLoaded\');\n    \n  });\n}());';
+    xj.innerHTML = '(function () {\n  \'use strict\';\n  document.addEventListener(\'DOMContentLoaded\',function () {\n    \n  });\n}());';
     ael(xj, 'input', refresh);
     ael(xj, 'keydown', function (e) {
       key(e, xj);
