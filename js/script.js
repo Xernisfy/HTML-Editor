@@ -452,9 +452,11 @@
         doc += '\n' + sty.outerHTML;
       };
       console.clear();
-      o = cr('iframe');
+      console.time('DOMContentLoaded');
       o.srcdoc = doc;
-      o.contentWindow.console.time('DOMContentLoaded');
+      o.contentDocument.addEventListener('DOMContentLoaded', function() {
+        console.timeEnd('DOMContentLoaded');
+      })
       xr.innerHTML = doc;
     }
     function key(e, o) {
