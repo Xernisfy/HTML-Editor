@@ -452,6 +452,7 @@
         doc += '\n' + sty.outerHTML;
       };
       console.clear();
+      o.contentWindow = null;
       o.srcdoc = doc;
       o.contentWindow.console.time('DOMContentLoaded');
       xr.innerHTML = doc;
