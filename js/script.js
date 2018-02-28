@@ -451,6 +451,7 @@
         sty.innerHTML = xc.value;
         doc += '\n' + sty.outerHTML;
       };
+      console.clear();
       o.srcdoc = doc;
       xr.innerHTML = doc;
     }
