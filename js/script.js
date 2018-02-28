@@ -452,6 +452,7 @@
         doc += '\n' + sty.outerHTML;
       };
       console.clear();
+      console.time('Load DOM content');
       o.srcdoc = doc;
       xr.innerHTML = doc;
     }
@@ -491,7 +492,7 @@
     ael(xh, 'keydown', function (e) {
       key(e, xh);
     });
-    xj.innerHTML = '(function () {\n  \'use strict\';\n  document.addEventListener(\'DOMContentLoaded\',function () {\n    \n  });\n}());';
+    xj.innerHTML = '(function () {\n  \'use strict\';\n  document.addEventListener(\'DOMContentLoaded\',function () {\n    console.timeEnd(\'Load DOM content\');\n    \n  });\n}());';
     ael(xj, 'input', refresh);
     ael(xj, 'keydown', function (e) {
       key(e, xj);
