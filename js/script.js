@@ -451,12 +451,12 @@
         sty.innerHTML = xc.value;
         doc += '\n' + sty.outerHTML;
       };
-      console.timeEnd('DOMContentLoaded');
+      var ms = 0;
       console.clear();
-      console.time('DOMContentLoaded');
+      ms = Date.now();
       o.srcdoc = doc;
       o.addEventListener('load', function() {
-        console.timeEnd('DOMContentLoaded');
+        console.log('DOMContentLoaded: ' + Date.now() - ms);
       })
       xr.innerHTML = doc;
     }
