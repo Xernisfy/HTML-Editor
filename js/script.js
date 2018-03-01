@@ -456,7 +456,7 @@
       ms = Date.now();
       o.srcdoc = doc;
       o.addEventListener('load', function() {
-        console.log('DOMContentLoaded: ' + Date.now() - ms);
+        console.log('DOMContentLoaded: ' + (Date.now() - ms));
       })
       xr.innerHTML = doc;
     }
