@@ -451,6 +451,7 @@
         sty.innerHTML = xc.value;
         doc += '\n' + sty.outerHTML;
       };
+      console.timeEnd('DOMContentLoaded');
       console.clear();
       console.time('DOMContentLoaded');
       o.srcdoc = doc;
