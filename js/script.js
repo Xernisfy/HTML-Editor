@@ -454,10 +454,8 @@
       console.clear();
       console.time('DOMContentLoaded');
       o.srcdoc = doc;
-      o.contentWindow.addEventListener('load', function() {
-        o.contentDocument.addEventListener('DOMContentLoaded', function() {
-          console.timeEnd('DOMContentLoaded');
-        })
+      o.addEventListener('load', function() {
+        console.timeEnd('DOMContentLoaded');
       })
       xr.innerHTML = doc;
     }
