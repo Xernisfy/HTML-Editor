@@ -455,7 +455,7 @@
       console.clear();
       ms = Date.now();
       o.onload = function () {
-        console.log('DOMContentLoaded' + ms + ': ' + (Date.now() - ms));
+        console.log('DOMContentLoaded: ' + (Date.now() - ms) + 'ms');
       }
       o.srcdoc = doc;
       xr.innerHTML = doc;
