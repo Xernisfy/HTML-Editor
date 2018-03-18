@@ -454,10 +454,10 @@
       var ms = 0;
       console.clear();
       ms = Date.now();
+      o.onload = function () {
+        console.log('DOMContentLoaded' + ms + ': ' + (Date.now() - ms));
+      }
       o.srcdoc = doc;
-      o.addEventListener('load', function() {
-        console.log('DOMContentLoaded: ' + (Date.now() - ms));
-      })
       xr.innerHTML = doc;
     }
     function key(e, o) {
