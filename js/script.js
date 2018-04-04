@@ -429,12 +429,11 @@
     });
     function refresh() {
       function appendCode(d, c) {
-        var head = /(\s+)(<\/head>)/,
-          body = /\s+<\/body>/;
-        if (d.match(head)) {
-          return d.replace(head, '$1  ' + c + '$1$2');
-        } else if (d.match(body)) {
-          return d.replace(body, '$1  ' + c + '$1$2');
+        var match;
+        if (match = d.match(/(\s+)(<\/head>)/)) {
+          return d.replace(/\s+<\/head>/, match[0] + '  ' + c + match[0] + match[1]);
+        } else if (match = d.match(/(\s+)(<\/body>)/)) {
+          return d.replace(/\s+<\/body>/, match[0] + '  ' + c + match[0] + match[1]);
         } else {
           return d + c;
         }
