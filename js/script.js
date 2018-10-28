@@ -493,7 +493,7 @@
           break;
       }
     }
-    xh.innerHTML = '<!doctype html>\n<html>\n  <head>\n    <title>HTML - Editor</title>\n    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>\n  </head>\n  <body></body>\n</html>';
+    xh.innerHTML = '<!doctype html>\n<html>\n  <head>\n    <title>HTML - Editor</title>\n     <meta charset="utf-8"/>\n  </head>\n  <body></body>\n</html>';
     ael(xh, 'input', refresh);
     ael(xh, 'keydown', function (e) {
       key(e, xh);
