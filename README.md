@@ -2,7 +2,7 @@
 
 HTML-Editor with instant preview rendering
 
-Try it: https://xernisfy.github.io/HTML-Editor
+~~Try it: https://xernisfy.github.io/HTML-Editor~~
 
 advantages:
 - works offline
